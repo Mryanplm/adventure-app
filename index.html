@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎿 Your Winter Adventure Awaits</title>
+    <style>
+        :root {
+            --color-primary: #208091;
+            --color-primary-hover: #17626e;
+            --color-background: #f5f5f2;
+            --color-surface: #ffffff;
+            --color-text: #1f2121;
+            --color-accent: #e65241;
+            --color-accent-light: rgba(230, 82, 65, 0.1);
+            --color-success: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8f1f5 100%);
+            color: var(--color-text);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, #156b77 100%);
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin: -20px -20px 30px -20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: var(--color-surface);
+            color: var(--color-text);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .tab-btn.active {
+            background: var(--color-primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(32, 128, 145, 0.3);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Prep Section */
+        .prep-section {
+            background: var(--color-surface);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .prep-section h3 {
+            margin-top: 0;
+            color: var(--color-primary);
+            font-size: 1.3em;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin-top: 4px;
+            cursor: pointer;
+            accent-color: var(--color-primary);
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+        }
+
+        .checklist label {
+            cursor: pointer;
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .checklist input[type="checkbox"]:checked + label {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        /* Adventure Stages */
+        .stage {
+            background: var(--color-surface);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--color-primary);
+            position: relative;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .stage.locked {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .stage.unlocked {
+            opacity: 1;
+            border-top-color: var(--color-success);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stage h3 {
+            margin-top: 0;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4em;
+        }
+
+        .lock-icon {
+            font-size: 1.2em;
+            opacity: 0.5;
+        }
+
+        .stage.unlocked .lock-icon {
+            display: none;
+        }
+
+        .stage-time {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .stage-content {
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .stage.unlocked .stage-content {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 1000px;
+            }
+        }
+
+        .canadian-note {
+            background: var(--color-accent-light);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 3px solid var(--color-accent);
+            font-style: italic;
+            color: #a83a2a;
+        }
+
+        .canadian-note::before {
+            content: "🍁 ";
+            margin-right: 8px;
+        }
+
+        /* Links Section */
+        .links-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .destination-link {
+            background: linear-gradient(135deg, rgba(32, 128, 145, 0.1) 0%, rgba(32, 128, 145, 0.05) 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--color-primary);
+            text-decoration: none;
+            color: var(--color-primary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .destination-link:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(32, 128, 145, 0.3);
+        }
+
+        .destination-link::after {
+            content: "→";
+            font-size: 1.2em;
+        }
+
+        /* Organizer Controls */
+        .organizer-section {
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe8dc 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px dashed var(--color-accent);
+            margin-top: 30px;
+        }
+
+        .organizer-section h3 {
+            color: var(--color-accent);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .organizer-section h3::before {
+            content: "🎯";
+            font-size: 1.3em;
+        }
+
+        .stage-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .unlock-btn {
+            padding: 12px 20px;
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .unlock-btn:hover {
+            background: #d94a36;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(230, 82, 65, 0.3);
+        }
+
+        .unlock-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .unlock-all-btn {
+            padding: 15px 25px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .unlock-all-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(32, 128, 145, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+
+        .stage-description {
+            color: #555;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .humor-text {
+            font-weight: 500;
+            color: var(--color-accent);
+        }
+
+        /* Reservation Links */
+        .reservation-link {
+            background: linear-gradient(135deg, rgba(230, 82, 65, 0.1) 0%, rgba(230, 82, 65, 0.05) 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--color-accent);
+            text-decoration: none;
+            color: var(--color-accent);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .reservation-link:hover {
+            background: var(--color-accent);
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(230, 82, 65, 0.3);
+        }
+
+        .reservation-link::after {
+            content: "📞";
+            font-size: 1.2em;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 2px solid var(--color-primary);
+        }
+
+        .welcome-banner h2 {
+            margin: 0 0 10px 0;
+            color: var(--color-primary);
+        }
+
+        .welcome-banner p {
+            margin: 0;
+            color: #555;
+        }
+
+        .copy-link-btn {
+            padding: 10px 20px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 10px 0 0 0;
+        }
+
+        .copy-link-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .mode-banner {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--color-primary);
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        [contenteditable="true"] {
+            outline: none;
+        }
+
+        .organizer-active [contenteditable="true"] {
+            border-bottom: 2px dashed rgba(32, 128, 145, 0.5);
+            cursor: text;
+            background: rgba(32, 128, 145, 0.02);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .organizer-active [contenteditable="true"]:hover {
+            background: rgba(32, 128, 145, 0.05);
+        }
+
+        .customize-section {
+            background: var(--color-surface);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 2px solid var(--color-primary);
+        }
+
+        .customize-section h3 {
+            color: var(--color-primary);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .customize-section h3::before {
+            content: "🛠";
+            font-size: 1.3em;
+        }
+
+        .customize-btn {
+            padding: 10px 20px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .customize-btn:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            padding: 10px 20px;
+            background: #e65241;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #d94a36;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+
+            .links-section {
+                grid-template-columns: 1fr;
+            }
+
+            .stage-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>❄️ Your Winter Adventure Awaits ❄️</h1>
+        <p>A quirky, stunning discovery day in the Ottawa-Gatineau region</p>
+    </div>
+
+    <div class="container">
+        <!-- Mode Banner -->
+        <div class="mode-banner" id="modeBanner">
+            <strong>☁️ GitHub Cloud Hosted:</strong> This version syncs automatically across all participants using cloud storage. Share the link, not the file. Updates appear instantly!
+        </div>
+
+        <!-- Organizer Welcome Banner -->
+        <div id="organizerBanner" class="welcome-banner" style="display: none;">
+            <h2>Welcome, Adventure Master! 🎯</h2>
+            <p>You have full control over this adventure. Share the link below with your group, then use your organizer controls to unlock stages as they progress. You can also customize every detail of this adventure!</p>
+            <button class="copy-link-btn" onclick="copyParticipantLink()">📋 Copy Participant Link</button>
+            <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px;">
+                <p style="margin: 0; font-size: 0.9em; color: #666;">
+                    <strong>Participant Link:</strong><br>
+                    <code id="participantLinkDisplay" style="background: #f5f5f5; padding: 8px; border-radius: 4px; display: block; word-break: break-all;"></code>
+                </p>
+            </div>
+        </div>
+
+        <!-- Participant View -->
+        <div id="participantMode">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('adventure', this)">🗺️ The Adventure</button>
+                <button class="tab-btn" onclick="switchTab('prep', this)">📋 Before You Go</button>
+            </div>
+
+            <!-- Adventure Tab -->
+            <div id="adventure" class="tab-content active">
+                <div class="stage locked" id="stage-1" data-stage="1">
+                    <h3><span class="lock-icon">🔒</span> <span id="stage1-title" contenteditable="true">Morning: Chelsea Start</span></h3>
+                    <div class="stage-time" id="stage1-time" contenteditable="true">8:30 AM - 9:30 AM</div>
+                    <div class="stage-content">
+                        <div class="stage-description" id="stage1-desc" contenteditable="true">
+                            <strong>🥐 Breakfast Stop</strong><br>
+                            Begin your adventure with specialty coffee and warm pastries at this charming café in Old Chelsea.
+                        </div>
+                        <div class="canadian-note" id="stage1-note" contenteditable="true">
+                            "In Canada, we measure breakfast quality by the strength of the coffee and the warmth of the pastry. This place nails both—no Timmies comparison needed, sorry."
+                        </div>
+                        <div class="links-section">
+                            <a href="https://www.google.com/maps/search/Biscotti+and+Cie+Chelsea" target="_blank" class="destination-link">📍 Get Directions</a>
+                            <a href="https://www.google.com/maps/search/Biscotti+and+Cie+Chelsea/@45.3333,-75.75" target="_blank" class="destination-link">🌍 See on Map</a>
+                        </div>
+                        <p style="color: #666; font-size: 0.95em;">Pro tip: Arrive hungry. You're going to want to try everything.</p>
+                    </div>
+                </div>
+
+                <div class="stage locked" id="stage-2" data-stage="2">
+                    <h3><span class="lock-icon">🔒</span> <span id="stage2-title" contenteditable="true">Cheese & Scenic Hiking</span></h3>
+                    <div class="stage-time" id="stage2-time" contenteditable="true">9:30 AM - 12:30 PM</div>
+                    <div class="stage-content">
+                        <div class="stage-description" id="stage2-desc" contenteditable="true">
+                            <strong>🧀 Artisan Cheese Stop</strong><br>
+                            Stock up on fresh artisan products and specialties before heading into nature.
+                        </div>
+                        <div class="canadian-note" id="stage2-note" contenteditable="true">
+                            "Only in Canada do we get excited about cheese curds the way other countries get excited about... basically anything else. You'll understand why soon."
+                        </div>
+                        <div class="links-section">
+                            <a href="https://trappeafromage.com" target="_blank" class="destination-link">🌐 Visit Website</a>
+                            <a href="https://www.google.com/maps/search/La+Trappe+a+Fromage+Gatineau" target="_blank" class="destination-link">📍 Get Directions</a>
+                        </div>
+
+                        <strong style="display: block; margin-top: 20px;">🥾 Choose Your Winter Hiking Experience:</strong>
+                        <div style="margin: 15px 0; padding: 15px; background: #f0f8ff; border-radius: 8px; border-left: 3px solid var(--color-primary);">
+                            <p style="margin: 0;"><strong>Option A: Lauriault Trail</strong> (4.5 km, 2-2.5 hours, More Challenging)</p>
+                            <p style="margin: 5px 0 0 0; color: #555;">Complete experience with waterfall views, historic exploration, and elevated lookout.</p>
+                        </div>
+                        <div style="margin: 15px 0; padding: 15px; background: #f0f8ff; border-radius: 8px; border-left: 3px solid var(--color-primary);">
+                            <p style="margin: 0;"><strong>Option B: Sugarbush Trail</strong> (3 km, 1-1.5 hours, Easier)</p>
+                            <p style="margin: 5px 0 0 0; color: #555;">Peaceful forest walk. Great for saving energy for what comes next.</p>
+                        </div>
+
+                        <div class="canadian-note" id="stage2-note2" contenteditable="true">
+                            "Winter hiking in Canada is basically just walking on frozen ground while pretending you're not cold. But the views? Worth every shiver."
+                        </div>
+
+                        <div class="links-section">
+                            <a href="https://ncc-ccn.gc.ca/places/gatineau-park" target="_blank" class="destination-link">🌲 Gatineau Park Info</a>
+                            <a href="https://www.google.com/maps/search/Lauriault+Trail+P6+Gatineau" target="_blank" class="destination-link">🗺️ Trail Parking</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stage locked" id="stage-3" data-stage="3">
+                    <h3><span class="lock-icon">🔒</span> <span id="stage3-title" contenteditable="true">Midday: Wakefield Village</span></h3>
+                    <div class="stage-time" id="stage3-time" contenteditable="true">12:30 PM - 3:30 PM</div>
+                    <div class="stage-content">
+                        <div class="stage-description" id="stage3-desc" contenteditable="true">
+                            <strong>🍽️ Lunch & Exploration</strong><br>
+                            Time to refuel and discover quirky boutiques and sweet treats in a charming village.
+                        </div>
+
+                        <strong style="display: block; margin-bottom: 15px;">Your Lunch Options:</strong>
+                        <div style="margin: 15px 0; padding: 15px; background: #fff8f0; border-radius: 8px;">
+                            <p style="margin: 0;"><strong>The Village House</strong> - Upscale comfort food with river views</p>
+                            <a href="https://www.google.com/maps/search/The+Village+House+Wakefield" target="_blank" class="destination-link" style="margin-top: 10px; display: inline-block;">📍 Directions</a>
+                        </div>
+                        <div style="margin: 15px 0; padding: 15px; background: #fff8f0; border-radius: 8px;">
+                            <p style="margin: 0;"><strong>Le Hibou</strong> - Casual Quebec comfort food</p>
+                            <a href="https://www.google.com/maps/search/Le+Hibou+Wakefield" target="_blank" class="destination-link" style="margin-top: 10px; display: inline-block;">📍 Directions</a>
+                        </div>
+
+                        <strong style="display: block; margin-top: 20px;">🍫 Sweet Stops & Boutiques</strong>
+                        <p style="color: #555;">Artisan chocolates, quirky boutiques, and iconic photo ops await.</p>
+
+                        <div class="canadian-note" id="stage3-note" contenteditable="true">
+                            "Wakefield is the kind of place where a covered bridge is a photo op. Don't judge. That bridge is older than most Canadian traditions and twice as photogenic in the snow."
+                        </div>
+
+                        <div class="links-section">
+                            <a href="https://www.google.com/maps/search/Wakefield+area+attractions" target="_blank" class="destination-link">🌍 Village Map</a>
+                            <a href="https://www.google.com/maps/search/Wakefield+Covered+Bridge" target="_blank" class="destination-link">🌉 Photo Op</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stage locked" id="stage-4" data-stage="4">
+                    <h3><span class="lock-icon">🔒</span> <span id="stage4-title" contenteditable="true">Afternoon: Your Choice</span></h3>
+                    <div class="stage-time" id="stage4-time" contenteditable="true">3:00 PM - 6:00 PM</div>
+                    <div class="stage-content">
+                        <strong style="display: block; margin-bottom: 15px;">Two Completely Different Experiences:</strong>
+
+                        <div style="margin: 15px 0; padding: 15px; background: #e8f4f8; border-radius: 8px; border-left: 3px solid #17a2b8;">
+                            <p style="margin: 0;"><strong>🧖 Option A: Spa Escape</strong></p>
+                            <p style="margin: 5px 0 0 0; color: #555;">Indulge in thermal pools and relaxation. After a morning of adventure, you've earned it.</p>
+                        </div>
+
+                        <div style="margin: 15px 0; padding: 15px; background: #f5f5f0; border-radius: 8px; border-left: 3px solid #8b7355;">
+                            <p style="margin: 0;"><strong>🏛️ Option B: Historic Exploration</strong></p>
+                            <p style="margin: 5px 0 0 0; color: #555;">Wander through historic ruins and stunning winter grounds in a cultural setting.</p>
+                        </div>
+
+                        <div class="canadian-note" id="stage4-note" contenteditable="true">
+                            "One is your 'I made it and I deserve luxury' move. The other is your 'I'm cultured and thoughtful' move. Both valid. Very Canadian."
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stage locked" id="stage-5" data-stage="5">
+                    <h3><span class="lock-icon">🔒</span> <span id="stage5-title" contenteditable="true">Evening: Celebration Dinner</span></h3>
+                    <div class="stage-time" id="stage5-time" contenteditable="true">6:00 PM - 9:00 PM</div>
+                    <div class="stage-content">
+                        <div class="stage-description" id="stage5-desc" contenteditable="true">
+                            <strong>🍽️ Your Finale Awaits</strong><br>
+                            Celebrate your adventure day with dinner in a special setting.
+                        </div>
+
+                        <p style="color: #666; margin-top: 20px; font-size: 0.95em;">
+                            <strong>Distance to Ottawa:</strong> 30 minutes | <strong>Total adventure time:</strong> 10.5 hours
+                        </p>
+
+                        <div class="canadian-note" id="stage5-note" contenteditable="true">
+                            "Dinner in a small Quebec village in winter hits different. It's like stepping into a postcard, except the food is real and you might actually stay warm."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prep Tab -->
+            <div id="prep" class="tab-content">
+                <div class="prep-section">
+                    <h3>🎒 What to Pack</h3>
+                    <ul class="checklist">
+                        <li><input type="checkbox" id="boots"><label for="boots"><strong>Winter boots with traction</strong> - Non-negotiable. Black ice is a national pastime here.</label></li>
+                        <li><input type="checkbox" id="cleats"><label for="cleats"><strong>Ice cleats/microspikes</strong> - For the trail. Frozen terrain requires respect.</label></li>
+                        <li><input type="checkbox" id="layers"><label for="layers"><strong>Layered clothing</strong> - Fleece + insulated jacket. The "Canadian onion" look is required.</label></li>
+                        <li><input type="checkbox" id="gloves"><label for="gloves"><strong>Insulated gloves</strong> - Frostbite is not a souvenir you want to bring back.</label></li>
+                        <li><input type="checkbox" id="hat"><label for="hat"><strong>Warm hat</strong> - 40% of heat loss is from your head. Science.</label></li>
+                        <li><input type="checkbox" id="socks"><label for="socks"><strong>Wool socks</strong> - Not just for vibes; they actually work.</label></li>
+                        <li><input type="checkbox" id="water"><label for="water"><strong>Insulated water bottle</strong> - Dehydration happens in winter too.</label></li>
+                        <li><input type="checkbox" id="hand-warmers"><label for="hand-warmers"><strong>Hand/foot warmers</strong> - Toss a few in your pockets. Cozy life hack.</label></li>
+                        <li><input type="checkbox" id="headlamp"><label for="headlamp"><strong>Headlamp</strong> - Sunset is 4:15 PM in December. You'll need light.</label></li>
+                        <li><input type="checkbox" id="snacks"><label for="snacks"><strong>High-calorie snacks</strong> - Trail mix, energy bars. Your body needs fuel.</label></li>
+                        <li><input type="checkbox" id="phone"><label for="phone"><strong>Fully charged phone + power bank</strong> - Maps and emergencies beat low battery.</label></li>
+                        <li><input type="checkbox" id="first-aid"><label for="first-aid"><strong>Basic first aid kit</strong> - Blister prevention is key.</label></li>
+                        <li><input type="checkbox" id="bathing"><label for="bathing"><strong>Bathing suit + flip-flops</strong> - If doing the spa option. Easy to forget!</label></li>
+                        <li><input type="checkbox" id="car"><label for="car"><strong>Car emergency kit</strong> - Jumper cables, blanket, flares. Winter requires backup plans.</label></li>
+                    </ul>
+                </div>
+
+                <div class="prep-section">
+                    <h3>🚗 Before You Drive</h3>
+                    <ul class="checklist">
+                        <li><input type="checkbox" id="weather"><label for="weather"><strong>Check weather & road conditions</strong> - "It'll probably be fine" is how people end up in ditches.</label></li>
+                        <li><input type="checkbox" id="gas"><label for="gas"><strong>Fill up your gas tank</strong> - Cold weather increases fuel consumption.</label></li>
+                        <li><input type="checkbox" id="tires"><label for="tires"><strong>Verify winter tires are on</strong> - Not optional. Legally required + necessary.</label></li>
+                        <li><input type="checkbox" id="battery"><label for="battery"><strong>Check car battery</strong> - Cold kills batteries faster than Monday motivation.</label></li>
+                        <li><input type="checkbox" id="scraper"><label for="scraper"><strong>Bring ice scraper & snow brush</strong> - Sitting in your car freezing isn't fun.</label></li>
+                        <li><input type="checkbox" id="gps"><label for="gps"><strong>Download offline maps</strong> - Cell service can be spotty in the hills.</label></li>
+                        <li><input type="checkbox" id="blanket"><label for="blanket"><strong>Emergency blanket in car</strong> - Worst case prep. Canadians always have one.</label></li>
+                    </ul>
+                </div>
+
+                <div class="prep-section" style="background: #fff8e6; border-left-color: #f39c12;">
+                    <h3 style="color: #f39c12;">⚠️ Winter Reality Check</h3>
+                    <p><span class="humor-text">"It's so cold, the banker was keeping his hands in his own pockets."</span> — A Canadian probably</p>
+                    <p>Translation: Winter in Canada is <strong>actually cold</strong>. -5°C to -10°C is normal for December. Dress accordingly or regret immediately. There's no such thing as bad weather, only bad preparation. (This is a lie Canadians tell themselves, but it helps.)</p>
+                </div>
+
+                <div class="prep-section">
+                    <h3>📞 Quick Reference</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>🚗 <strong>CAA or roadside assistance:</strong> Have it active</li>
+                        <li>📍 <strong>Organizer's contact:</strong> They'll provide this</li>
+                        <li>🏥 <strong>Nearest hospital:</strong> Gatineau, QC</li>
+                        <li>⛑️ <strong>Emergency:</strong> 911</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Organizer View -->
+        <div id="organizerMode" style="display: none;">
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                <strong>🔐 Organizer Mode Active</strong><br>
+                <small>Click any text to edit it. Your changes are saved automatically. All text fields are editable!</small>
+            </div>
+
+            <div class="organizer-section">
+                <h3>Welcome, Adventure Master 🎯</h3>
+                <p>Control the reveal for your participants. Unlock stages as they progress through the adventure. Build anticipation, manage timing, and keep the surprise alive!</p>
+
+                <div class="stage-controls">
+                    <button class="unlock-btn" onclick="unlockStage(1)">📍 Unlock Stage 1<br><span style="font-size: 0.8em;">Chelsea Start</span></button>
+                    <button class="unlock-btn" onclick="unlockStage(2)">🥾 Unlock Stage 2<br><span style="font-size: 0.8em;">Cheese & Hiking</span></button>
+                    <button class="unlock-btn" onclick="unlockStage(3)">🍽️ Unlock Stage 3<br><span style="font-size: 0.8em;">Wakefield Village</span></button>
+                    <button class="unlock-btn" onclick="unlockStage(4)">🧖 Unlock Stage 4<br><span style="font-size: 0.8em;">Afternoon Choice</span></button>
+                    <button class="unlock-btn" onclick="unlockStage(5)">🍽️ Unlock Stage 5<br><span style="font-size: 0.8em;">Dinner & Return</span></button>
+                </div>
+
+                <button class="unlock-all-btn" onclick="unlockAllStages()">🔓 Unlock All Stages</button>
+            </div>
+
+            <!-- Reservations Section -->
+            <div style="background: var(--color-surface); padding: 25px; border-radius: 15px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="color: var(--color-primary); margin-top: 0;">📞 Make Reservations</h3>
+                <p style="color: #666; margin-bottom: 20px;">Click to call or contact venues directly to confirm your bookings.</p>
+
+                <div style="margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #ddd;">
+                    <h4 style="margin: 0 0 15px 0; color: var(--color-text);">🥐 Stage 1: Biscotti & Cie (Chelsea)</h4>
+                    <p style="margin: 0 0 10px 0; color: #666;"><strong>Note:</strong> Walk-ins only, no reservations taken.</p>
+                    <a href="tel:+1-819-827-2550" class="reservation-link">Call: 819-827-2550</a>
+                    <a href="https://www.google.com/maps/search/Biscotti+and+Cie+Chelsea" target="_blank" class="destination-link" style="border-color: var(--color-primary); color: var(--color-primary); background: linear-gradient(135deg, rgba(32, 128, 145, 0.1) 0%, rgba(32, 128, 145, 0.05) 100%);">Get Directions</a>
+                </div>
+
+                <div style="margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #ddd;">
+                    <h4 style="margin: 0 0 15px 0; color: var(--color-text);">🧀 Stage 2: La Trappe à Fromage</h4>
+                    <p style="margin: 0 0 10px 0; color: #666;"><strong>Note:</strong> Popular shop, arrive early or call ahead.</p>
+                    <a href="tel:+1-819-243-6411" class="reservation-link">Call: 819-243-6411</a>
+                    <a href="https://www.google.com/maps/search/La+Trappe+a+Fromage+Gatineau" target="_blank" class="destination-link" style="border-color: var(--color-primary); color: var(--color-primary); background: linear-gradient(135deg, rgba(32, 128, 145, 0.1) 0%, rgba(32, 128, 145, 0.05) 100%);">Get Directions</a>
+                </div>
+
+                <div style="margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #ddd;">
+                    <h4 style="margin: 0 0 15px 0; color: var(--color-text);">🍽️ Stage 3: The Village House (Wakefield)</h4>
+                    <p style="margin: 0 0 10px 0; color: #666;"><strong>Reservations recommended for groups of 7+</strong><br>Address: 759 Riverside Road, Wakefield</p>
+                    <a href="tel:+1-819-459-1445" class="reservation-link">Call: 819-459-1445</a>
+                </div>
+
+                <div style="margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #ddd;">
+                    <h4 style="margin: 0 0 15px 0; color: var(--color-text);">🍽️ Stage 3 Alt: Le Hibou (Wakefield)</h4>
+                    <p style="margin: 0 0 10px 0; color: #666;"><strong>Casual lunch option</strong><br>Address: 757 Chemin Riverside, Wakefield</p>
+                    <a href="tel:+1-819-459-8883" class="reservation-link">Call: 819-459-8883</a>
+                    <a href="mailto:CafeLeHibou@gmail.com?subject=Lunch%20Reservation" class="reservation-link" style="background: linear-gradient(135deg, rgba(230, 82, 65, 0.1) 0%, rgba(230, 82, 65, 0.05) 100%); border-color: var(--color-accent); color: var(--color-accent);">Email</a>
+                </div>
+
+                <div style="margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #ddd;">
+                    <h4 style="margin: 0 0 15px 0; color: var(--color-text);">🧖 Stage 4: Kōena Nordic Spa</h4>
+                    <p style="margin: 0 0 10px 0; color: #666;"><strong>Book online or call for guaranteed access.</strong> Best rates: Weekday Mini Escape $39 (after 6 PM), Grand Escape $49-59<br>Address: 1172 Aylmer Road, Gatineau</p>
+                    <a href="https://koenaspa.com/en/" target="_blank" class="destination-link" style="border-color: var(--color-primary); color: var(--color-primary); background: linear-gradient(135deg, rgba(32, 128, 145, 0.1) 0%, rgba(32, 128, 145, 0.05) 100%); display: inline-block; margin-right: 10px; margin-bottom: 10px;">Book Online</a>
+                    <a href="tel:+1-819-525-7545" class="reservation-link">Call: 819-525-7545</a>
+                </div>
+
+                <div style="margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #ddd;">
+                    <h4 style="margin: 0 0 15px 0; color: var(--color-text);">🏛️ Stage 4 Alternative: Mackenzie King Estate</h4>
+                    <p style="margin: 0 0 10px 0; color: #666;"><strong>Note:</strong> Free admission, no reservations needed. Open 9 AM-5 PM daily.</p>
+                    <a href="https://ncc-ccn.gc.ca/places/mackenzie-king-estate" target="_blank" class="destination-link" style="border-color: var(--color-primary); color: var(--color-primary); background: linear-gradient(135deg, rgba(32, 128, 145, 0.1) 0%, rgba(32, 128, 145, 0.05) 100%); display: inline-block;">Visit Website</a>
+                </div>
+
+                <div style="margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #ddd;">
+                    <h4 style="margin: 0 0 15px 0; color: var(--color-text);">🍽️ Stage 5: La Muse @ Wakefield Mill (Fine Dining)</h4>
+                    <p style="margin: 0 0 10px 0; color: #666;"><strong>RESERVATIONS ESSENTIAL</strong><br>Choose 3-course Table d'Hôte or 5-course Discovery Menu. Open 5:30-9:00 PM daily<br>Address: 60 Mill Road, Wakefield</p>
+                    <a href="https://wakefieldmill.com/muse-restaurant" target="_blank" class="destination-link" style="border-color: var(--color-primary); color: var(--color-primary); background: linear-gradient(135deg, rgba(32, 128, 145, 0.1) 0%, rgba(32, 128, 145, 0.05) 100%); display: inline-block; margin-right: 10px; margin-bottom: 10px;">Book Online</a>
+                    <a href="tel:+1-819-827-2020" class="reservation-link">Call: 819-827-2020</a>
+                </div>
+
+                <div style="padding: 20px; background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border-radius: 8px; border-left: 4px solid var(--color-primary);">
+                    <h4 style="margin-top: 0; color: var(--color-primary);">🍁 Suggested Unlock Timeline</h4>
+                    <ul style="margin: 0; color: #555; line-height: 1.8; list-style: none; padding: 0;">
+                        <li>7:00 AM - Send teaser: "Adventure unlocks in 1 hour. Bundle up, eh?"</li>
+                        <li>8:15 AM - <strong>Stage 1 Unlocked ✓</strong> (Chelsea breakfast)</li>
+                        <li>9:45 AM - Text: "How's breakfast? Stage 2 unlocking soon!"</li>
+                        <li>10:00 AM - <strong>Stage 2 Unlocked ✓</strong> (Cheese & hiking)</li>
+                        <li>12:00 PM - Text: "Getting hungry? Check Stage 3!"</li>
+                        <li>12:15 PM - <strong>Stage 3 Unlocked ✓</strong> (Wakefield village)</li>
+                        <li>3:00 PM - Text: "You've earned the next choice..."</li>
+                        <li>3:15 PM - <strong>Stage 4 Unlocked ✓</strong> (Spa or history)</li>
+                        <li>5:30 PM - Text: "Time to celebrate! Final stage unlocked."</li>
+                        <li>5:45 PM - <strong>Stage 5 Unlocked ✓</strong> (Dinner finale)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Budget Section (Organizer Only) -->
+            <div style="background: var(--color-surface); padding: 25px; border-radius: 15px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="color: var(--color-primary); margin-top: 0;">💰 Budget Planning</h3>
+                <p style="color: #666; margin-bottom: 15px;">Per person estimate for planning purposes:</p>
+                <ul style="list-style: none; padding: 0; color: #555;">
+                    <li style="margin-bottom: 10px;">💵 <strong>Without spa:</strong> $110-140</li>
+                    <li style="margin-bottom: 10px;">💵 <strong>With Kōena Mini Escape:</strong> $150-180</li>
+                    <li style="margin-bottom: 10px;">💵 <strong>With spa + fine dining at La Muse:</strong> $180-220</li>
+                    <li style="padding-top: 10px; border-top: 1px solid #ccc;">
+                        <strong>Breakdown:</strong>
+                        <ul style="margin: 10px 0 0 0; padding-left: 20px;">
+                            <li>Breakfast: $15-20</li>
+                            <li>Cheese boutique: $20-40</li>
+                            <li>Lunch: $20-30</li>
+                            <li>Chocolates/treats: $15-30</li>
+                            <li>Spa (optional): $39-59</li>
+                            <li>Dinner: $40-100+</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Stage Status -->
+            <div style="background: var(--color-surface); padding: 25px; border-radius: 15px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <h3 style="color: var(--color-primary); margin-top: 0;">📊 Stage Status</h3>
+                <div id="stageStatus" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Customize Section -->
+            <div class="customize-section">
+                <h3>Customize This Adventure</h3>
+                <p style="color: #555; margin-bottom: 15px;">
+                    Click any text on this page to edit it. Customize stage titles, times, descriptions, notes, and more. Your changes are saved automatically in your browser.
+                </p>
+                <button class="customize-btn" onclick="saveEditableContent()">💾 Save Adventure Template</button>
+                <button class="reset-btn" onclick="resetEditableContent()">♻️ Reset to Original</button>
+                <p style="color: #777; font-size: 0.85em; margin-top: 10px;">
+                    <strong>Note:</strong> Changes are saved in your browser. They'll be here next time you open this adventure on this device. To reuse your custom version, you can create a copy of this file.
+                </p>
+            </div>
+
+            <!-- Exit Button -->
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="exitOrganizerMode()" style="padding: 12px 30px; background: #999; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">← Exit Organizer Mode</button>
+            </div>
+        </div>
+
+        <!-- Password Modal -->
+        <div id="passwordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+            <div style="background: white; padding: 40px; border-radius: 15px; text-align: center; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+                <h2 style="color: var(--color-primary); margin-top: 0;">🔐 Organizer Access</h2>
+                <p style="color: #666; margin-bottom: 25px;">Enter your organizer password to unlock control features.</p>
+                <input type="password" id="passwordInput" placeholder="Enter password" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1em; margin-bottom: 15px;" onkeypress="if(event.key==='Enter') checkPassword()">
+                <button onclick="checkPassword()" style="width: 100%; padding: 12px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-bottom: 10px;">Access Organizer Mode</button>
+                <button onclick="closePasswordModal()" style="width: 100%; padding: 12px; background: #ddd; color: #333; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Continue as Participant</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🇨🇦 Designed for adventure • Made with Canadian humour • No poutine required (but recommended)</p>
+    </div>
+
+    <script>
+        // Configuration
+        const ORGANIZER_PASSWORD = 'adventure2025';
+        const ADVENTURE_CONTENT_KEY = 'adventureContentV1';
+        let unlockedStages = {};
+        let isOrganizerMode = false;
+
+        // Initialize
+        function init() {
+            loadState();
+            initEditableContent();
+            checkForOrganizerMode();
+            updateStageStatus();
+        }
+
+        // Editable content management
+        function initEditableContent() {
+            const saved = localStorage.getItem(ADVENTURE_CONTENT_KEY);
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    Object.keys(data).forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) {
+                            el.innerHTML = data[id];
+                        }
+                    });
+                } catch (e) {
+                    console.warn('Could not parse saved adventure content', e);
+                }
+            }
+
+            const editables = document.querySelectorAll('[contenteditable="true"]');
+            editables.forEach(el => {
+                el.addEventListener('blur', saveEditableContent);
+            });
+        }
+
+        function collectEditableContent() {
+            const editables = document.querySelectorAll('[contenteditable="true"]');
+            const data = {};
+            editables.forEach(el => {
+                if (el.id) {
+                    data[el.id] = el.innerHTML;
+                }
+            });
+            return data;
+        }
+
+        function saveEditableContent() {
+            const data = collectEditableContent();
+            localStorage.setItem(ADVENTURE_CONTENT_KEY, JSON.stringify(data));
+        }
+
+        function resetEditableContent() {
+            if (confirm('Are you sure? This will reset all your custom text to the original template.')) {
+                localStorage.removeItem(ADVENTURE_CONTENT_KEY);
+                window.location.reload();
+            }
+        }
+
+        // Check for organizer mode
+        function checkForOrganizerMode() {
+            const params = new URLSearchParams(window.location.search);
+            const showPassword = params.get('organizer');
+            
+            if (showPassword === 'true') {
+                showPasswordModal();
+            } else {
+                displayParticipantView();
+            }
+        }
+
+        // Password modal functions
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'flex';
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            displayParticipantView();
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            if (input.value === ORGANIZER_PASSWORD) {
+                isOrganizerMode = true;
+                document.getElementById('passwordModal').style.display = 'none';
+                displayOrganizerView();
+            } else {
+                alert('❌ Incorrect password. Try again.');
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function displayParticipantView() {
+            isOrganizerMode = false;
+            document.body.classList.remove('organizer-active');
+            document.getElementById('organizerBanner').style.display = 'none';
+            document.getElementById('participantMode').style.display = 'block';
+            document.getElementById('organizerMode').style.display = 'none';
+        }
+
+        function displayOrganizerView() {
+            isOrganizerMode = true;
+            document.body.classList.add('organizer-active');
+            document.getElementById('organizerBanner').style.display = 'block';
+            document.getElementById('participantMode').style.display = 'none';
+            document.getElementById('organizerMode').style.display = 'block';
+            setParticipantLinkDisplay();
+        }
+
+        function exitOrganizerMode() {
+            isOrganizerMode = false;
+            document.body.classList.remove('organizer-active');
+            displayParticipantView();
+            window.scrollTo(0, 0);
+        }
+
+        function setParticipantLinkDisplay() {
+            const baseUrl = window.location.origin + window.location.pathname;
+            document.getElementById('participantLinkDisplay').textContent = baseUrl;
+        }
+
+        function copyParticipantLink() {
+            const baseUrl = window.location.origin + window.location.pathname;
+            navigator.clipboard.writeText(baseUrl).then(() => {
+                alert('✅ Participant link copied to clipboard!\n\nShare this with your adventure group.');
+            }).catch(() => {
+                alert('Participant link:\n\n' + baseUrl);
+            });
+        }
+
+        // Tab switching
+        function switchTab(tabName, button) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+        }
+
+        // Stage unlocking
+        function unlockStage(stageNum) {
+            unlockedStages[stageNum] = true;
+            const stage = document.getElementById(`stage-${stageNum}`);
+            stage.classList.remove('locked');
+            stage.classList.add('unlocked');
+            saveState();
+            updateStageStatus();
+        }
+
+        function unlockAllStages() {
+            for (let i = 1; i <= 5; i++) {
+                unlockedStages[i] = true;
+            }
+            updateStagesDisplay();
+            saveState();
+            updateStageStatus();
+        }
+
+        function updateStagesDisplay() {
+            for (let i = 1; i <= 5; i++) {
+                const stage = document.getElementById(`stage-${i}`);
+                if (stage) {
+                    if (unlockedStages[i]) {
+                        stage.classList.remove('locked');
+                        stage.classList.add('unlocked');
+                    }
+                }
+            }
+        }
+
+        // Local storage
+        function saveState() {
+            localStorage.setItem('adventureState', JSON.stringify({
+                unlockedStages: unlockedStages
+            }));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('adventureState');
+            if (saved) {
+                const state = JSON.parse(saved);
+                unlockedStages = state.unlockedStages;
+                
+                for (let i = 1; i <= 5; i++) {
+                    if (unlockedStages[i]) {
+                        const stage = document.getElementById(`stage-${i}`);
+                        if (stage) {
+                            stage.classList.remove('locked');
+                            stage.classList.add('unlocked');
+                        }
+                    }
+                }
+            }
+        }
+
+        function updateStageStatus() {
+            const statusDiv = document.getElementById('stageStatus');
+            if (!statusDiv) return;
+            
+            const stages = [
+                { num: 1, name: 'Chelsea Start' },
+                { num: 2, name: 'Cheese & Hiking' },
+                { num: 3, name: 'Wakefield Village' },
+                { num: 4, name: 'Afternoon Choice' },
+                { num: 5, name: 'Dinner Finale' }
+            ];
+            
+            statusDiv.innerHTML = stages.map(s => `
+                <div style="padding: 12px; border-radius: 8px; background: ${unlockedStages[s.num] ? '#d4edda' : '#e7e7e7'}; text-align: center; color: ${unlockedStages[s.num] ? '#155724' : '#666'};">
+                    <div style="font-weight: 600; font-size: 1.1em;">Stage ${s.num}</div>
+                    <div style="font-size: 0.85em; margin-top: 5px;">${s.name}</div>
+                    <div style="font-size: 0.75em; margin-top: 5px;">${unlockedStages[s.num] ? '✅ Unlocked' : '🔒 Locked'}</div>
+                </div>
+            `).join('');
+        }
+
+        // Add organizer button to header
+        function addOrganizerButton() {
+            const btn = document.createElement('button');
+            btn.innerHTML = '🔐 Organizer Access';
+            btn.style.cssText = 'position: fixed; top: 20px; right: 20px; padding: 10px 20px; background: var(--color-accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; z-index: 100;';
+            btn.onclick = function() {
+                if (isOrganizerMode) {
+                    exitOrganizerMode();
+                } else {
+                    showPasswordModal();
+                }
+            };
+            document.body.appendChild(btn);
+        }
+
+        // Initialize on load
+        window.addEventListener('load', function() {
+            init();
+            addOrganizerButton();
+        });
+    </script>
+</body>
+</html>
